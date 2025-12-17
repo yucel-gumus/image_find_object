@@ -30,25 +30,17 @@ export const segmentationColors = [
 ];
 export const segmentationColorsRgb = segmentationColors.map((c) => hexToRgb(c));
 
-// Image options'ı lazy loading ile initialize ediyoruz
 let _imageOptions: string[] | null = null;
 
 export async function getImageOptions(): Promise<string[]> {
   if (_imageOptions) {
     return _imageOptions;
   }
-  
+
   _imageOptions = await Promise.all(
     [
-      'origami.jpg',
-      'pumpkins.jpg',
-      'clock.jpg',
       'socks.jpg',
-      'breakfast.jpg',
       'cat.jpg',
-      'spill.jpg',
-      'fruit.jpg',
-      'baklava.jpg',
     ].map(async (i) =>
       URL.createObjectURL(
         await (
@@ -59,11 +51,10 @@ export async function getImageOptions(): Promise<string[]> {
       ),
     ),
   );
-  
+
   return _imageOptions;
 }
 
-// Geçici olarak boş array, gerçek değerler getImageOptions() ile yüklenecek
 export const imageOptions: string[] = [];
 
 export const lineOptions = {
@@ -75,33 +66,15 @@ export const lineOptions = {
 };
 
 export const defaultPromptParts = {
-  '2D sınırlayıcı kutular': [
-    'Bana şunların konumlarını göster:',
-    'öğeler',
-    'JSON listesi olarak. Maske döndürme. En fazla 25 öğe ile sınırla.',
-  ],
   'Segmentasyon maskeleri': [
     'Şunlar için segmentasyon maskelerini ver:',
     'öğeler',
     '. "box_2d" anahtarında 2D sınırlayıcı kutu, "mask" anahtarında segmentasyon maskesi ve "label" anahtarında metin etiketi bulunan JSON listesi çıktısı ver. Açıklayıcı etiketler kullan.',
   ],
-  '3D sınırlayıcı kutular': [
-    'JSON formatında çıktı ver. Şunların 3D sınırlayıcı kutularını tespit et:',
-    'öğeler',
-    ', en fazla 10 öğe çıktısı ver. "label" içinde nesne adı ve "box_3d" içinde 3D sınırlayıcı kutusu bulunan liste döndür.',
-  ],
-  'Noktalar': [
-    'Şunları işaretle:',
-    'öğeler',
-    ' en fazla 10 öğe ile. Cevap şu JSON formatını takip etmeli: [{"point": <nokta>, "label": <etiket1>}, ...]. Noktalar 0-1000 arasında normalize edilmiş [y, x] formatındadır.',
-  ],
 };
 
 export const defaultPrompts = {
-  '2D sınırlayıcı kutular': defaultPromptParts['2D sınırlayıcı kutular'].join(' '),
-  '3D sınırlayıcı kutular': defaultPromptParts['3D sınırlayıcı kutular'].join(' '),
   'Segmentasyon maskeleri': defaultPromptParts['Segmentasyon maskeleri'].join(''),
-  'Noktalar': defaultPromptParts['Noktalar'].join(' '),
 };
 
 const safetyLevel = 'only_high';

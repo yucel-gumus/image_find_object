@@ -1,8 +1,8 @@
-import {useAtom} from 'jotai';
-import {useEffect, useState} from 'react';
-import {ImageSrcAtom, IsUploadedImageAtom} from './atoms';
-import {getImageOptions} from './consts';
-import {useResetState} from './hooks';
+import { useAtom } from 'jotai';
+import { useEffect, useState } from 'react';
+import { ImageSrcAtom, IsUploadedImageAtom } from '../store/atoms';
+import { getImageOptions } from '../utils/consts';
+import { useResetState } from '../hooks';
 
 export function ExampleImages() {
   const [, setImageSrc] = useAtom(ImageSrcAtom);
@@ -16,7 +16,6 @@ export function ExampleImages() {
       try {
         const options = await getImageOptions();
         setImageOptions(options);
-        // İlk resmi default olarak seç
         if (options.length > 0) {
           setImageSrc(options[0]);
         }

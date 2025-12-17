@@ -1,36 +1,41 @@
-# Web Uygulamanızı Çalıştırın ve Dağıtın
+# Nesne Tespiti (Segmentasyon Maskeleri)
 
-Bu, uygulamanızı yerel olarak çalıştırmak için ihtiyacınız olan her şeyi içerir.
+Bu uygulama, Gemini modellerini kullanarak resimlerdeki nesneleri gelişmiş segmentasyon maskeleri ile tespit etmenizi sağlar. Proje, güvenli bir yapı için Python (FastAPI) tabanlı bir backend ile çalışacak şekilde tasarlanmıştır.
 
-## Yerel Olarak Çalıştırma
+## Kurulum ve Çalıştırma
 
-**Gereksinimler:** Node.js
+### 1. Frontend (React)
+Bağımlılıkları yükleyin:
+```bash
+npm install
+```
+`.env` adında bir dosya oluşturun ve API adresinizi tanımlayın:
+```text
+VITE_API_URL=""
+```
+Ardından geliştirme sunucusunu başlatın:
+```bash
+npm run dev
+```
+Uygulama varsayılan olarak `http://localhost:5173` adresinde çalışacaktır.
 
-1. Bağımlılıkları yükleyin:
-   ```bash
-   npm install
-   ```
+### 2. Backend (Python/FastAPI)
+Bu proje, API çağrılarını yönetmek için bir Python backend'ine ihtiyaç duyar.
+- Gerekli paketler: `fastapi`, `uvicorn`, `google-generativeai`, `Pillow`.
+- Backend'inizi `http://localhost:8000/api/analyze-image` endpoint'ini sağlayacak şekilde çalıştırın.
 
-2. [.env.local](.env.local) dosyasında `GEMINI_API_KEY` değerini Gemini API anahtarınızla ayarlayın
+## Önemli Özellikler
 
-3. Uygulamayı çalıştırın:
-   ```bash
-   npm run dev
-   ```
-
-## Özellikler
-
-- **2D Sınırlayıcı Kutular**: Resimlerdeki nesneleri dikdörtgen kutularla tespit edin
-- **3D Sınırlayıcı Kutular**: Nesnelerin 3 boyutlu konumlarını belirleyin
-- **Segmentasyon Maskeleri**: Nesnelerin kesin sınırlarını çıkarın
-- **Nokta Tespiti**: Belirli noktaları işaretleyin
-- **Ekran Paylaşımı**: Canlı ekran görüntülerini analiz edin
-- **Örnek Resimler**: Hazır resimlerle hızlıca test edin
+- **Gelişmiş Segmentasyon**: Nesnelerin tam sınırlarını belirleyen maskeler çıkarın.
+- **Gemini 3 Flash Desteği**: En güncel Gemini modelleri ile yüksek hız ve doğruluk.
+- **Farklı Giriş Yöntemleri**: Resim yükleme, ekran paylaşımı veya örnek resimler üzerinden analiz yapabilme.
+- **Esnek Maske Çizimi**: Hem koordinat bazlı (polygon) hem de görsel bazlı maske desteği.
 
 ## Kullanım
 
-1. Bir resim yükleyin veya örnek resimlerden birini seçin
-2. Tespit türünü seçin (2D kutular, 3D kutular, segmentasyon, noktalar)
-3. Ne tespit etmek istediğinizi yazın
-4. "Gönder" butonuna tıklayın
-5. Sonuçları görüntüleyin ve etkileşimde bulunun
+1. Bir resim yükleyin, örneklerden birini seçin veya ekranınızı paylaşın.
+2. Tespit edilmesini istediğiniz nesneleri yazın (Örn: "çoraplar", "kedi").
+3. **Analiz Et** butonuna tıklayın.
+4. Sonuçlar ekranda renkli maskeler ve etiketler olarak belirecektir.
+   - Maskelerin üzerine gelerek detayları görebilirsiniz.
+   - Oturumu sıfırlayarak yeni bir analize başlayabilirsiniz.
