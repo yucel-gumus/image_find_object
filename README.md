@@ -1,111 +1,88 @@
-# Nesne Tespiti — Uzamsal Anlama (`image_find_object`)
+# 🔍 Nesne Tespiti & Uzamsal Anlama (Gemini Vision Object Detection & Segmentation)
 
-Gemini vision modelleri ile görüntülerde **segmentasyon maskeleri** ve nesne etiketleri üreten React + Vite uygulaması. Üretimde analiz istekleri **Gemini Gateway** (`/api/analyze-image`) üzerinden gider; Vercel serverless veya dev proxy ile API anahtarı sunucu tarafında kalır.
+Nesne Tespiti; kullanıcıların yüklediği görseller, hazır örnekler veya ekran paylaşımları (video/stream capture) üzerinde yapay zeka yardımıyla nesneleri tespit etmesini ve sınırlarını belirlemesini sağlayan, **React 19 & TailwindCSS v4** tabanlı modern bir web uygulamasıdır. 
 
-**GitHub:** [yucel-gumus/image_find_object](https://github.com/yucel-gumus/image_find_object)
-
----
-
-## Özellikler
-
-- **Metinle hedefleme:** “çoraplar”, “kedi” gibi ifadelerle nesne listesi
-- **Girdi kaynakları:** dosya yükleme, örnek görseller, ekran paylaşımı (stream capture)
-- **Maske çizimi:** polygon koordinatları ve görsel overlay
-- **Zoom / pan:** sonuç canvas üzerinde inceleme
-- **State:** Jotai ile hafif global state
-- **Çizim:** `perfect-freehand` ile serbest çizim desteği
+Uygulama, Google Gemini'ın gelişmiş **Spatial Understanding (Uzamsal Anlama)** yeteneğini kullanarak görseldeki nesnelerin konum koordinatlarını çıkarır ve arayüzde dinamik maskeler halinde çizer.
 
 ---
 
-## Mimari
+## 🌟 Öne Çıkan Özellikler
+
+* 🎯 **Metin Hedefli Nesne Bulma:** Kullanıcı aramak istediği nesneleri yazar (Örn: *"çoraplar"*, *"bardak"*, *"kedi"*). Yapay zeka sadece bu nesneleri bulup konumlandırır.
+* 📐 **Gemini Spatial Bounding Box & Polygon Çizimi:**
+  * Yapay zeka, nesneleri `[ymin, xmin, ymax, xmax]` formatında sınırlayıcı kutular (bounding boxes) ve polygon noktaları olarak tespit eder.
+  * React istemcisi, bu normalleştirilmiş koordinatları görsel boyutlarına göre haritalandırarak nesnelerin etrafına renkli maskeler (overlay) ve etiketler çizer.
+* ✍️ **Serbest Çizim Desteği (`perfect-freehand`):** Kullanıcılar tuval (canvas) üzerinde fareyle veya dokunarak pürüzsüz serbest çizimler yapabilir, nesneleri işaretleyebilir.
+* 📹 **Çoklu Girdi Kaynakları:** Cihazdan yerel fotoğraf yükleme, yerleşik örnek görselleri kullanma veya anlık ekran/kamera akışını (stream capture) yakalama desteği.
+* ⚡ **Jotai State Yönetimi:** Jotai kütüphanesiyle hafif, atomik ve yüksek performanslı durum yönetimi (State Management).
+
+---
+
+## 🏗️ Mimarî Yapı ve Veri Akışı
+
+API anahtarlarının istemci tarafında sızdırılmasını engellemek için tüm işlemler Vercel Serverless proxy katmanı üzerinden yönlendirilir:
 
 ```
-React (Vite)
-    │ POST /api/analyze-image  { image, prompt }
-    ▼
-Vercel Function (api/analyze-image.ts)  [prod]
-    veya vite proxy → gateway           [dev]
-    ▼
-https://api.yucelgumus.dev/api/analyze-image
-    ▼
-Gemini (segmentation / detection JSON)
+[ İstemci (Vite + Jotai) ] ──(POST /api/analyze-image)──► [ Vercel Serverless (api/analyze-image.ts) ]
+                                                                       │
+                                                             (X-API-Key Yetkilendirme)
+                                                                       ▼
+[ Gemini Vision API ] ◄──(Bounding Box & Polygons)─── [ Python Gateway (api.yucelgumus.dev) ]
 ```
-
-`src/services/gemini.ts` base URL:
-
-- `VITE_API_BASE_URL` set ise: `{base}/api/analyze-image`
-- Aksi halde same-origin `/api/analyze-image` (Vercel function)
 
 ---
 
-## Kurulum
+## 📂 Proje Klasör Yapısı
 
+```
+image_find_object/
+├── src/
+│   ├── components/
+│   │   ├── CanvasContainer.tsx   # perfect-freehand çizimlerinin yapıldığı ve görsellerin render edildiği ana tuval
+│   │   ├── ImageSelector.tsx     # Örnek ve yüklenen resimlerin seçimi
+│   │   └── ControlPanel.tsx      # Arama girdileri ve analiz tetikleyici butonlar
+│   ├── services/
+│   │   └── gemini.ts             # Gateway bağlantı ve veri dönüştürme servisi
+│   ├── App.tsx                   # Ana React bileşeni ve Jotai state tanımları
+│   └── main.tsx
+├── api/
+│   └── analyze-image.ts          # Vercel Serverless Gateway Proxy
+├── tsconfig.json
+├── vite.config.ts            # Dev proxy yapılandırması
+└── package.json
+```
+
+---
+
+## 🚀 Kurulum ve Yerel Çalıştırma
+
+### 1. Bağımlılıkları Yükleyin
 ```bash
 git clone https://github.com/yucel-gumus/image_find_object.git
 cd image_find_object
 npm install
-cp .env.example .env
 ```
 
-### Ortam
+### 2. Ortam Değişkenleri (`.env`)
+Proje kök dizininde `.env` oluşturun:
 
 ```env
+# Sunucu Tarafı (Vercel Serverless / Local API için)
 AI_API_URL=https://api.yucelgumus.dev
-GATEWAY_CLIENT_API_KEY=...        # Vercel / server only
-VITE_API_BASE_URL=                # boş = same-origin API route
+GATEWAY_CLIENT_API_KEY=your_client_api_key
+
+# İstemci Tarafı (Boş bırakılırsa same-origin /api/analyze-image kullanılır)
+VITE_API_BASE_URL=
 ```
 
-Geliştirme:
-
+### 3. Geliştirme Sunucusunu Başlatma
 ```bash
-npm run dev    # http://localhost:5173 — vite.config proxy → gateway
+npm run dev
 ```
+Uygulama `http://localhost:5173` adresinde başlayacaktır.
 
 ---
 
-## Vercel deploy
-
-- `api/analyze-image.ts` serverless handler gateway’e `X-API-Key` ile proxy eder
-- `scripts/vercel_prod_deploy.py` env senkronu için kullanılabilir
-- Client bundle’da **GEMINI_API_KEY olmamalı**
-
----
-
-## API sözleşmesi (özet)
-
-**İstek:** multimodal gövde — base64 görsel + kullanıcı prompt (aranan nesneler)
-
-**Yanıt:** model çıktısından parse edilen maskeler (polygon noktaları), bounding bilgisi, etiketler — UI bunları renkli katmanlar olarak çizer.
-
-Detaylı şema gateway implementasyonuna bağlıdır (`python_backend`).
-
----
-
-## Teknoloji
-
-| Bileşen | Kütüphane |
-|---------|-----------|
-| UI | React 19, Tailwind 4 (browser) |
-| Build | Vite 6, TypeScript |
-| Deploy | Vercel Node runtime |
-
----
-
-## İlgili repo
-
-- [llm_api](https://github.com/yucel-gumus/llm_api) — Gateway ve `analyze-image` implementasyonu
-
----
-
-## Kullanım
-
-1. Görsel seçin veya ekran paylaşın
-2. Tespit edilecek nesneleri yazın
-3. **Analiz Et** — maskeler ve etiketler görünür
-4. Oturumu sıfırlayarak yeni analiz başlatın
-
----
-
-## Lisans
-
-Apache-2.0 veya repo lisansına tabidir.
+## 🔗 Canlı Bağlantılar
+* **Canlı Demo:** [https://image-find-object.vercel.app/](https://image-find-object.vercel.app/)
+* **Geliştirici LinkedIn:** [https://linkedin.com/in/yucel-gumus](https://linkedin.com/in/yucel-gumus)
