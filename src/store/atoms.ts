@@ -25,7 +25,7 @@ export const LinesAtom = atom<[[number, number][], string][]>([]);
 
 export const JsonModeAtom = atom(false);
 
-export const ActiveColorAtom = atom(colors[6]);
+export const ActiveColorAtom = atom(colors[0]);
 
 export const HoverEnteredAtom = atom(false);
 
@@ -40,3 +40,5 @@ export const InitFinishedAtom = atom(true);
 export const BumpSessionAtom = atom(0);
 
 export const IsUploadedImageAtom = atom(false);
+
+export const ToastStateAtom = atom<{ message: string; type: 'error' | 'success' | 'info' } | null>(null);

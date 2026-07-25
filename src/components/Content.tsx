@@ -1,4 +1,3 @@
-
 import { useAtom } from 'jotai';
 import getStroke from 'perfect-freehand';
 import { useCallback, useMemo, useRef, useState } from 'react';
@@ -12,8 +11,6 @@ import {
   HoveredBoxAtom,
   ImageSrcAtom,
   LinesAtom,
-  ShareStream,
-  VideoRefAtom,
 } from '../store/atoms';
 import { lineOptions } from '../utils/consts';
 import { getSvgPathFromStroke } from '../utils';
@@ -22,9 +19,7 @@ import { SegmentationMaskOverlay } from './overlays/SegmentationMaskOverlay';
 export function Content() {
   const [imageSrc] = useAtom(ImageSrcAtom);
   const [boundingBoxMasks] = useAtom(BoundingBoxMasksAtom);
-  const [stream] = useAtom(ShareStream);
   const [detectType] = useAtom(DetectTypeAtom);
-  const videoRef = useAtom(VideoRefAtom)[0];
   const [lines, setLines] = useAtom(LinesAtom);
   const [drawMode] = useAtom(DrawModeAtom);
   const [activeColor] = useAtom(ActiveColorAtom);
@@ -38,7 +33,7 @@ export function Content() {
   });
 
   const onResize = useCallback(() => {
-    // Redraw if needed
+    // Canvas reflow callback
   }, []);
 
   const { ref: resizeRef } = useResizeDetector({
@@ -77,30 +72,27 @@ export function Content() {
   }, [activeMediaDimensions, containerRef.current?.clientWidth, containerRef.current?.clientHeight]);
 
   return (
-    <div ref={containerRef} className="w-full grow relative bg-black flex items-center justify-center overflow-hidden">
-      <div ref={resizeRef} style={mediaStyle} className="relative">
-        {stream ? (
-          <video
-            className="w-full h-full object-contain"
-            autoPlay
-            onLoadedMetadata={(e) => {
-              setActiveMediaDimensions({
-                width: e.currentTarget.videoWidth,
-                height: e.currentTarget.videoHeight,
-              });
-            }}
-            ref={(video) => {
-              videoRef.current = video;
-              if (video && !video.srcObject) {
-                video.srcObject = stream;
-              }
-            }}
-          />
-        ) : imageSrc ? (
+    <div
+      ref={containerRef}
+      className="w-full grow relative bg-[#3D231C] rounded-2xl border-2 border-[#D98877] shadow-inner flex items-center justify-center overflow-hidden min-h-[360px]"
+    >
+      {/* Top Right Draw Mode Indicator */}
+      {drawMode && (
+        <div className="absolute top-3 right-3 z-20 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#9BCEC1] text-[#15382F] text-xs font-extrabold border border-[#6DA294] shadow-md animate-pulse">
+          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+          </svg>
+          <span>Çizim Modu Aktif</span>
+        </div>
+      )}
+
+      {/* Main Viewport Container */}
+      <div ref={resizeRef} style={mediaStyle} className="relative shadow-2xl rounded-lg overflow-hidden">
+        {imageSrc ? (
           <img
             src={imageSrc}
             className="w-full h-full object-contain"
-            alt="Yüklenen resim"
+            alt="Yüklenen Görsel"
             onLoad={(e) => {
               setActiveMediaDimensions({
                 width: e.currentTarget.naturalWidth,
@@ -109,13 +101,24 @@ export function Content() {
             }}
           />
         ) : (
-          <div className="w-full h-full flex items-center justify-center text-gray-500">
-            Bir resim yükleyin veya ekranınızı paylaşın
+          <div className="w-full h-full min-h-[300px] flex flex-col items-center justify-center p-8 text-center text-[#FFB6A6]">
+            <div className="w-16 h-16 rounded-2xl bg-[#FFB6A6]/20 border-2 border-[#FFB6A6]/40 flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-[#FFB6A6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <p className="text-base font-bold text-[#FFEBD3]">Analiz Edilecek Bir Görsel Yükleyin</p>
+            <p className="text-xs text-[#FFB6A6]/80 mt-1 max-w-sm">
+              Sağ paneli kullanarak bir dosya seçin veya aşağıdaki örnek görsellerden birine tıklayın.
+            </p>
           </div>
         )}
 
+        {/* Interactive Overlay Layer */}
         <div
-          className="absolute top-0 left-0 w-full h-full pointer-events-auto cursor-crosshair"
+          className={`absolute top-0 left-0 w-full h-full pointer-events-auto ${
+            drawMode ? 'cursor-crosshair' : 'cursor-default'
+          }`}
           onPointerDown={(e) => {
             if (!drawMode) return;
             const rect = e.currentTarget.getBoundingClientRect();
@@ -125,7 +128,7 @@ export function Content() {
           }}
           onPointerMove={(e) => {
             if (!drawMode || currentLine.length === 0) {
-              // Hover logic
+              // Hover logic for segment boxes
               const rect = e.currentTarget.getBoundingClientRect();
               const x = (e.clientX - rect.left) / rect.width;
               const y = (e.clientY - rect.top) / rect.height;

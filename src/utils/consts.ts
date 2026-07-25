@@ -1,12 +1,10 @@
 export const colors = [
-  'rgb(0, 0, 0)',
-  'rgb(255, 255, 255)',
-  'rgb(213, 40, 40)',
-  'rgb(250, 123, 23)',
-  'rgb(240, 186, 17)',
-  'rgb(8, 161, 72)',
-  'rgb(26, 115, 232)',
-  'rgb(161, 66, 244)',
+  'rgb(155, 206, 193)', // #9BCEC1 Sage Mint
+  'rgb(255, 182, 166)', // #FFB6A6 Soft Peach
+  'rgb(61, 35, 28)',    // #3D231C Dark Terracotta
+  'rgb(217, 136, 119)',  // #D98877 Deep Peach
+  'rgb(109, 162, 148)',  // #6DA294 Dark Mint
+  'rgb(255, 235, 211)',  // #FFEBD3 Cream
 ];
 
 function hexToRgb(hex: string) {
@@ -17,17 +15,16 @@ function hexToRgb(hex: string) {
 }
 
 export const segmentationColors = [
-  '#E6194B',
-  '#3C89D0',
-  '#3CB44B',
-  '#FFE119',
-  '#911EB4',
-  '#42D4F4',
-  '#F58231',
-  '#F032E6',
-  '#BFEF45',
-  '#469990',
+  '#9BCEC1',
+  '#FFB6A6',
+  '#D98877',
+  '#86BBAE',
+  '#E89E8E',
+  '#6DA294',
+  '#FFCBD0',
+  '#6EA497',
 ];
+
 export const segmentationColorsRgb = segmentationColors.map((c) => hexToRgb(c));
 
 let _imageOptions: string[] | null = null;

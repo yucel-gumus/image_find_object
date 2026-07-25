@@ -4,35 +4,34 @@ import { colors } from '../utils/consts';
 
 export function Palette() {
   const [activeColor, setActiveColor] = useAtom(ActiveColorAtom);
+
   return (
     <div
-      className="flex gap-2 pointer-events-auto"
+      className="flex items-center gap-2 px-3 py-1.5 rounded-2xl bg-[#FFEBD3] border-2 border-[#E8C8A3] shadow-inner"
       onClick={(e) => {
         e.stopPropagation();
-      }}>
-      {colors.map((color) => (
-        <div
-          className="w-7 h-7 rounded-full pointer-events-auto cursor-pointer relative"
-          style={{
-            background: color === activeColor ? 'transparent' : color,
-            border: color === activeColor ? '1px solid ' + color : 'none',
-            width: 24,
-            height: 24,
-          }}
-          onClick={(e) => {
-            e.stopPropagation();
-            setActiveColor(color);
-          }}>
-          <div
-            className="w-5 h-5 rounded-full absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2"
+      }}
+    >
+      <span className="text-xs font-bold text-[#3D231C] mr-1">Çizim Rengi:</span>
+      {colors.map((color, idx) => {
+        const isSelected = color === activeColor;
+        return (
+          <button
+            key={idx}
+            className={`w-6 h-6 rounded-full relative transition-transform duration-150 ${
+              isSelected ? 'scale-125 ring-2 ring-[#9BCEC1] ring-offset-1 shadow-md' : 'hover:scale-110'
+            }`}
             style={{
-              width: 18,
-              height: 18,
-              background: color,
+              backgroundColor: color,
+              border: '1.5px solid rgba(61, 35, 28, 0.2)',
+            }}
+            onClick={(e) => {
+              e.stopPropagation();
+              setActiveColor(color);
             }}
           />
-        </div>
-      ))}
+        );
+      })}
     </div>
   );
 }
