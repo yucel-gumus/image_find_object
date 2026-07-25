@@ -1,21 +1,13 @@
 import { atom } from 'jotai';
-import {
-  colors,
-} from '../utils/consts';
-import {
-  BoundingBoxMaskType,
-  DetectTypes,
-} from '../types';
+import { colors } from '../utils/consts';
+import { BoundingBoxMaskType, DetectTypes } from '../types';
 
+// Active Application State Atoms
 export const ImageSrcAtom = atom<string | null>(null);
 
-export const ImageSentAtom = atom(false);
+export const ImageSentAtom = atom<boolean>(false);
 
 export const BoundingBoxMasksAtom = atom<BoundingBoxMaskType[]>([]);
-
-export const TemperatureAtom = atom<number>(0.5);
-
-export const ShareStream = atom<MediaStream | null>(null);
 
 export const DrawModeAtom = atom<boolean>(false);
 
@@ -23,22 +15,16 @@ export const DetectTypeAtom = atom<DetectTypes>('Segmentasyon maskeleri');
 
 export const LinesAtom = atom<[[number, number][], string][]>([]);
 
-export const JsonModeAtom = atom(false);
+export const ActiveColorAtom = atom<string>(colors[0]);
 
-export const ActiveColorAtom = atom(colors[0]);
-
-export const HoverEnteredAtom = atom(false);
+export const HoverEnteredAtom = atom<boolean>(false);
 
 export const HoveredBoxAtom = atom<number | null>(null);
 
-export const VideoRefAtom = atom<{ current: HTMLVideoElement | null }>({
-  current: null,
-});
+export const InitFinishedAtom = atom<boolean>(true);
 
-export const InitFinishedAtom = atom(true);
+export const BumpSessionAtom = atom<number>(0);
 
-export const BumpSessionAtom = atom(0);
-
-export const IsUploadedImageAtom = atom(false);
+export const IsUploadedImageAtom = atom<boolean>(false);
 
 export const ToastStateAtom = atom<{ message: string; type: 'error' | 'success' | 'info' } | null>(null);

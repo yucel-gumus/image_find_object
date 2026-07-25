@@ -1,5 +1,4 @@
 import { useAtom } from 'jotai';
-import getStroke from 'perfect-freehand';
 import { useState } from 'react';
 import { generateContent } from '../services/gemini';
 import {
@@ -9,10 +8,8 @@ import {
   LinesAtom,
   ToastStateAtom,
 } from '../store/atoms';
-import { lineOptions } from '../utils/consts';
-import { getSvgPathFromStroke, loadImage } from '../utils';
-
-const DEFAULT_TEMPERATURE = 0.2;
+import { DEFAULT_TEMPERATURE } from '../utils/consts';
+import { prepareCanvasDataURL } from '../utils/canvas';
 
 export function Prompt() {
   const [, setBoundingBoxMasks] = useAtom(BoundingBoxMasksAtom);
@@ -25,7 +22,7 @@ export function Prompt() {
 
   const getPromptText = () => {
     const promptValue = targetPrompt.trim() || 'öğeler';
-    return `Şunlar için segmentasyon maskelerini ver: ${promptValue}. "box_2d" anahtarında 2D sınırlayıcı kutu, "mask" anahtarında segmentasyon maskesi ve "label" anahtarında metin etiketi bulunan JSON listesi çıktısı ver. Açıklayıcı etiketler kullan.`;
+    return `Şunlar için segmentasyon maskelerini ver: ${promptValue}. Yanıt olarak SADECE geçerli bir JSON dizisi (list) çıktısı ver. Hiçbir açıklama, selamlama veya ekstra metin ekleme. Çıktı şu yapıda bir JSON listesi olmalıdır: [{"box_2d": [ymin, xmin, ymax, xmax], "label": "etiket", "mask": "maske"}]`;
   };
 
   async function handleSend() {
@@ -42,44 +39,7 @@ export function Prompt() {
     setIsLoading(true);
 
     try {
-      let activeDataURL = '';
-      const maxSize = 640;
-      const copyCanvas = document.createElement('canvas');
-      const ctx = copyCanvas.getContext('2d');
-
-      if (!ctx) {
-        throw new Error('Tuval (Canvas) oluşturulamadı.');
-      }
-
-      if (imageSrc) {
-        const image = await loadImage(imageSrc);
-        const scale = Math.min(maxSize / image.width, maxSize / image.height);
-        copyCanvas.width = image.width * scale;
-        copyCanvas.height = image.height * scale;
-        ctx.drawImage(image, 0, 0, copyCanvas.width, copyCanvas.height);
-      }
-
-      // Draw overlay stroke lines if present
-      if (lines.length > 0) {
-        for (const line of lines) {
-          const p = new Path2D(
-            getSvgPathFromStroke(
-              getStroke(
-                line[0].map(([x, y]) => [
-                  x * copyCanvas.width,
-                  y * copyCanvas.height,
-                  0.5,
-                ]),
-                lineOptions
-              )
-            )
-          );
-          ctx.fillStyle = line[1];
-          ctx.fill(p);
-        }
-      }
-
-      activeDataURL = copyCanvas.toDataURL('image/png');
+      const activeDataURL = await prepareCanvasDataURL(imageSrc, lines);
       setHoverEntered(false);
 
       const config = {
@@ -88,26 +48,38 @@ export function Prompt() {
       };
 
       const promptText = getPromptText();
-      let response = await generateContent(
+      const rawResponse = await generateContent(
         activeDataURL.replace('data:image/png;base64,', ''),
         promptText,
         config
       );
 
-      // Clean JSON formatting defensively
-      if (response.includes('```json')) {
-        response = response.split('```json')[1].split('```')[0];
-      } else if (response.includes('```')) {
-        response = response.split('```')[1].split('```')[0];
+      // Robust JSON Extraction
+      let jsonString = '';
+      const matchArray = rawResponse.match(/\[\s*\{.*\}\s*\]/s);
+      
+      if (matchArray) {
+        jsonString = matchArray[0];
+      } else if (rawResponse.includes('```json')) {
+        jsonString = rawResponse.split('```json')[1].split('```')[0].trim();
+      } else if (rawResponse.includes('```')) {
+        jsonString = rawResponse.split('```')[1].split('```')[0].trim();
+      } else {
+        const start = rawResponse.indexOf('[');
+        const end = rawResponse.lastIndexOf(']');
+        if (start !== -1 && end !== -1 && end > start) {
+          jsonString = rawResponse.substring(start, end + 1);
+        } else {
+          jsonString = rawResponse.trim();
+        }
       }
 
-      const jsonStart = response.indexOf('[');
-      const jsonEnd = response.lastIndexOf(']');
-      if (jsonStart !== -1 && jsonEnd !== -1 && jsonEnd > jsonStart) {
-        response = response.substring(jsonStart, jsonEnd + 1);
+      let parsedResponse: any;
+      try {
+        parsedResponse = JSON.parse(jsonString);
+      } catch {
+        throw new Error('Model yanıtı geçerli bir JSON listesi olarak okunamadı. Lütfen tekrar deneyin.');
       }
-
-      const parsedResponse = JSON.parse(response);
 
       if (!Array.isArray(parsedResponse)) {
         throw new Error('Yanıt beklenen dizi (list) biçiminde değil.');
@@ -195,8 +167,9 @@ export function Prompt() {
       <div className="pt-2 border-t border-[#D98877]/40 flex justify-end">
         {/* Primary CTA Button */}
         <button
-          className={`w-full theme-accent-btn px-8 py-3.5 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 shadow-md ${isLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
-            }`}
+          className={`w-full theme-accent-btn px-8 py-3.5 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 shadow-md ${
+            isLoading ? 'opacity-70 cursor-not-allowed' : 'cursor-pointer'
+          }`}
           disabled={isLoading}
           onClick={handleSend}
         >
@@ -206,7 +179,7 @@ export function Prompt() {
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
-              <span>KENSAI GÖRSELİ ANALİZ EDİYOR...</span>
+              <span>KENSAI GÖRSELİ ANALİZ EDİLİYOR...</span>
             </>
           ) : (
             <>

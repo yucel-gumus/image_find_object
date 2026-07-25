@@ -1,3 +1,6 @@
+export const DEFAULT_TEMPERATURE = 0.2;
+export const MAX_CANVAS_SIZE = 640;
+
 export const colors = [
   'rgb(155, 206, 193)', // #9BCEC1 Sage Mint
   'rgb(255, 182, 166)', // #FFB6A6 Soft Peach
@@ -52,8 +55,6 @@ export async function getImageOptions(): Promise<string[]> {
   return _imageOptions;
 }
 
-export const imageOptions: string[] = [];
-
 export const lineOptions = {
   size: 8,
   thinning: 0,
@@ -61,25 +62,3 @@ export const lineOptions = {
   streamline: 0,
   simulatePressure: false,
 };
-
-export const defaultPromptParts = {
-  'Segmentasyon maskeleri': [
-    'Şunlar için segmentasyon maskelerini ver:',
-    'öğeler',
-    '. "box_2d" anahtarında 2D sınırlayıcı kutu, "mask" anahtarında segmentasyon maskesi ve "label" anahtarında metin etiketi bulunan JSON listesi çıktısı ver. Açıklayıcı etiketler kullan.',
-  ],
-};
-
-export const defaultPrompts = {
-  'Segmentasyon maskeleri': defaultPromptParts['Segmentasyon maskeleri'].join(''),
-};
-
-const safetyLevel = 'only_high';
-
-export const safetySettings = new Map();
-
-safetySettings.set('harassment', safetyLevel);
-safetySettings.set('hate_speech', safetyLevel);
-safetySettings.set('sexually_explicit', safetyLevel);
-safetySettings.set('dangerous_content', safetyLevel);
-safetySettings.set('civic_integrity', safetyLevel);
