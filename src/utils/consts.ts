@@ -1,3 +1,6 @@
+import socksImg from '../assets/examples/socks.jpg';
+import catImg from '../assets/examples/cat.jpg';
+
 export const DEFAULT_TEMPERATURE = 0.2;
 export const MAX_CANVAS_SIZE = 640;
 
@@ -37,21 +40,7 @@ export async function getImageOptions(): Promise<string[]> {
     return _imageOptions;
   }
 
-  _imageOptions = await Promise.all(
-    [
-      'socks.jpg',
-      'cat.jpg',
-    ].map(async (i) =>
-      URL.createObjectURL(
-        await (
-          await fetch(
-            `https://www.gstatic.com/aistudio/starter-apps/bounding-box/${i}`,
-          )
-        ).blob(),
-      ),
-    ),
-  );
-
+  _imageOptions = [socksImg, catImg];
   return _imageOptions;
 }
 
