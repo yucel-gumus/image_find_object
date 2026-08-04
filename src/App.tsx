@@ -63,6 +63,9 @@ function App() {
 
         </div>
       </main>
+      <footer className="w-full py-3 text-center text-xs text-gray-500 border-t border-gray-200/20 mt-4">
+        <p>Geliştirici: <a href="https://www.yucelgumus.dev/" target="_blank" rel="noopener noreferrer" className="font-semibold underline hover:text-gray-700 transition-colors">Yücel Gümüş</a></p>
+      </footer>
     </div>
   );
 }
