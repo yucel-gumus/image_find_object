@@ -5,12 +5,11 @@ export const DEFAULT_TEMPERATURE = 0.2;
 export const MAX_CANVAS_SIZE = 640;
 
 export const colors = [
-  'rgb(155, 206, 193)', // #9BCEC1 Sage Mint
-  'rgb(255, 182, 166)', // #FFB6A6 Soft Peach
-  'rgb(61, 35, 28)',    // #3D231C Dark Terracotta
-  'rgb(217, 136, 119)',  // #D98877 Deep Peach
-  'rgb(109, 162, 148)',  // #6DA294 Dark Mint
-  'rgb(255, 235, 211)',  // #FFEBD3 Cream
+  'rgb(236, 125, 85)',  // #EC7D55
+  'rgb(171, 66, 28)',   // #AB421C
+  'rgb(37, 51, 65)',    // #253341
+  'rgb(62, 81, 100)',   // #3E5164
+  'rgb(242, 164, 136)', // #F2A488
 ];
 
 function hexToRgb(hex: string) {
@@ -21,14 +20,11 @@ function hexToRgb(hex: string) {
 }
 
 export const segmentationColors = [
-  '#9BCEC1',
-  '#FFB6A6',
-  '#D98877',
-  '#86BBAE',
-  '#E89E8E',
-  '#6DA294',
-  '#FFCBD0',
-  '#6EA497',
+  '#EC7D55',
+  '#AB421C',
+  '#253341',
+  '#3E5164',
+  '#F2A488',
 ];
 
 export const segmentationColorsRgb = segmentationColors.map((c) => hexToRgb(c));

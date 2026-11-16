@@ -33,12 +33,12 @@ export function ExampleImages() {
   if (isLoading) {
     return (
       <div className="flex flex-col gap-2.5 w-full">
-        <span className="text-xs font-extrabold uppercase tracking-wider text-[#3D231C] text-center">
+        <span className="text-xs font-extrabold uppercase tracking-wider text-[#253341] text-center">
           Örnek Görseller
         </span>
         <div className="flex gap-2 justify-center">
-          <div className="w-14 h-14 rounded-xl bg-[#FFEBD3] animate-pulse border border-[#E8C8A3]" />
-          <div className="w-14 h-14 rounded-xl bg-[#FFEBD3] animate-pulse border border-[#E8C8A3]" />
+          <div className="w-14 h-14 rounded-xl bg-[#EDF3EE] animate-pulse border border-[#BCC7D2]" />
+          <div className="w-14 h-14 rounded-xl bg-[#EDF3EE] animate-pulse border border-[#BCC7D2]" />
         </div>
       </div>
     );
@@ -47,10 +47,10 @@ export function ExampleImages() {
   return (
     <div className="flex flex-col gap-2.5 w-full">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-extrabold uppercase tracking-wider text-[#3D231C]">
+        <span className="text-xs font-extrabold uppercase tracking-wider text-[#253341]">
           Örnek Görseller
         </span>
-        <span className="text-[10px] font-bold text-[#6E4438] bg-[#FFEBD3] px-2 py-0.5 rounded-full border border-[#E8C8A3]">
+        <span className="text-[10px] font-bold text-[#3E5164] bg-[#DBE6DD] px-2 py-0.5 rounded-full border border-[#BCC7D2]">
           {imageOptions.length} Adet
         </span>
       </div>
@@ -62,8 +62,8 @@ export function ExampleImages() {
             <button
               key={image}
               className={`p-0 aspect-square relative overflow-hidden rounded-xl border-2 transition-all duration-200 shadow-sm hover:scale-105 active:scale-95 ${isSelected
-                ? 'border-[#9BCEC1] ring-4 ring-[#9BCEC1]/40 shadow-md'
-                : 'border-[#E8C8A3] hover:border-[#9BCEC1]'
+                ? 'border-[#EC7D55] ring-4 ring-[#EC7D55]/35 shadow-md'
+                : 'border-[#BCC7D2] hover:border-[#EC7D55]'
                 }`}
               onClick={() => {
                 setIsUploadedImage(false);
@@ -78,7 +78,7 @@ export function ExampleImages() {
                 className="absolute left-0 top-0 w-full h-full object-cover"
               />
               {isSelected && (
-                <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#9BCEC1] text-[#15382F] border border-[#6DA294] flex items-center justify-center text-[10px] font-bold">
+                <div className="absolute top-1 right-1 w-4 h-4 rounded-full bg-[#EC7D55] text-[#253341] border border-[#AB421C] flex items-center justify-center text-[10px] font-bold">
                   ✓
                 </div>
               )}

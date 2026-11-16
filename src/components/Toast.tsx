@@ -24,22 +24,22 @@ export function Toast() {
       <div
         className={`flex items-center gap-3 px-5 py-3.5 rounded-2xl shadow-xl border-2 transition-all duration-300 ${
           isError
-            ? 'bg-[#3D231C] text-[#FFB6A6] border-[#FFB6A6]'
+            ? 'bg-[#AB421C] text-[#F5F9F5] border-[#F2A488]'
             : isSuccess
-            ? 'bg-[#15382F] text-[#9BCEC1] border-[#9BCEC1]'
-            : 'bg-[#FFB6A6] text-[#3D231C] border-[#D98877]'
+            ? 'bg-[#253341] text-[#F5F9F5] border-[#DBE6DD]'
+            : 'bg-[#DCE3EA] text-[#253341] border-[#BCC7D2]'
         }`}
       >
         {isError ? (
-          <svg className="w-5 h-5 shrink-0 text-[#FFB6A6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 shrink-0 text-[#F2A488]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         ) : isSuccess ? (
-          <svg className="w-5 h-5 shrink-0 text-[#9BCEC1]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 shrink-0 text-[#DBE6DD]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         ) : (
-          <svg className="w-5 h-5 shrink-0 text-[#3D231C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg className="w-5 h-5 shrink-0 text-[#3E5164]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
           </svg>
         )}

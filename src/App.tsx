@@ -13,7 +13,7 @@ function App() {
   const [initFinished] = useAtom(InitFinishedAtom);
 
   return (
-    <div className="flex flex-col min-h-screen bg-[#FFEBD3] text-[#3D231C] font-sans selection:bg-[#9BCEC1] selection:text-[#15382F]">
+    <div className="flex flex-col min-h-screen bg-[#EDF3EE] text-[#253341] font-sans selection:bg-[#F2A488] selection:text-[#253341]">
       {/* Toast Notification Container */}
       <Toast />
 
@@ -29,8 +29,8 @@ function App() {
             <div className="theme-card rounded-3xl p-4 sm:p-5 flex flex-col gap-4 min-h-[500px]">
               <div className="flex items-center justify-between px-2">
                 <div className="flex items-center gap-2">
-                  <span className="w-3 h-3 rounded-full bg-[#9BCEC1] border border-[#6DA294]"></span>
-                  <h2 className="text-sm font-extrabold uppercase tracking-wider text-[#3D231C]">
+                  <span className="w-3 h-3 rounded-full bg-[#EC7D55] border border-[#AB421C]"></span>
+                  <h2 className="text-sm font-extrabold uppercase tracking-wider text-[#253341]">
                     Görsel Analiz Alanı
                   </h2>
                 </div>
@@ -55,7 +55,7 @@ function App() {
             <div className="theme-card rounded-3xl p-5 sm:p-6 flex flex-col gap-5">
               <SideControls />
               <DetectTypeSelector />
-              <div className="pt-2 border-t border-[#D98877]/40">
+              <div className="pt-2 border-t border-[#BCC7D2]">
                 <ExampleImages />
               </div>
             </div>
@@ -63,8 +63,8 @@ function App() {
 
         </div>
       </main>
-      <footer className="w-full py-3 text-center text-xs text-gray-500 border-t border-gray-200/20 mt-4">
-        <p>Geliştirici: <a href="https://www.yucelgumus.dev/" target="_blank" rel="noopener noreferrer" className="font-semibold underline hover:text-gray-700 transition-colors">Yücel Gümüş</a></p>
+      <footer className="w-full py-3 text-center text-xs text-[#3E5164] border-t border-[#BCC7D2] mt-4">
+        <p>Geliştirici: <a href="https://www.yucelgumus.dev/" target="_blank" rel="noopener noreferrer" className="font-semibold underline text-[#253341] hover:text-[#AB421C] transition-colors">Yücel Gümüş</a></p>
       </footer>
     </div>
   );

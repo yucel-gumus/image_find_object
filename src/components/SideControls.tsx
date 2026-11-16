@@ -19,7 +19,7 @@ export function SideControls() {
   return (
     <div className="flex flex-col gap-3 w-full">
       {/* File Upload Dropzone / Button */}
-      <label className="group flex items-center justify-center gap-3 px-5 py-3.5 rounded-xl bg-[#9BCEC1] text-[#15382F] font-extrabold text-sm border-2 border-[#6DA294] hover:bg-[#86BBAE] cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md active:scale-98">
+      <label className="group flex items-center justify-center gap-3 px-5 py-3.5 rounded-xl bg-[#DBE6DD] text-[#253341] font-extrabold text-sm border-2 border-[#3E5164] hover:bg-[#F5F9F5] hover:border-[#EC7D55] cursor-pointer transition-all duration-200 shadow-sm hover:shadow-md active:scale-98">
         <input
           className="hidden"
           type="file"
@@ -40,7 +40,7 @@ export function SideControls() {
             }
           }}
         />
-        <svg className="w-5 h-5 text-[#15382F] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <svg className="w-5 h-5 text-[#253341] group-hover:scale-110 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
         </svg>
         <span>Görsel Yükle</span>

@@ -74,11 +74,11 @@ export function Content() {
   return (
     <div
       ref={containerRef}
-      className="w-full grow relative bg-[#3D231C] rounded-2xl border-2 border-[#D98877] shadow-inner flex items-center justify-center overflow-hidden min-h-[360px]"
+      className="w-full grow relative bg-[#253341] rounded-2xl border-2 border-[#BCC7D2] shadow-inner flex items-center justify-center overflow-hidden min-h-[360px]"
     >
       {/* Top Right Draw Mode Indicator */}
       {drawMode && (
-        <div className="absolute top-3 right-3 z-20 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#9BCEC1] text-[#15382F] text-xs font-extrabold border border-[#6DA294] shadow-md animate-pulse">
+        <div className="absolute top-3 right-3 z-20 flex items-center gap-2 px-3 py-1.5 rounded-xl bg-[#EC7D55] text-[#253341] text-xs font-extrabold border border-[#AB421C] shadow-md animate-pulse">
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
           </svg>
@@ -101,14 +101,14 @@ export function Content() {
             }}
           />
         ) : (
-          <div className="w-full h-full min-h-[300px] flex flex-col items-center justify-center p-8 text-center text-[#FFB6A6]">
-            <div className="w-16 h-16 rounded-2xl bg-[#FFB6A6]/20 border-2 border-[#FFB6A6]/40 flex items-center justify-center mb-4">
-              <svg className="w-8 h-8 text-[#FFB6A6]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <div className="w-full h-full min-h-[300px] flex flex-col items-center justify-center p-8 text-center text-[#DCE3EA]">
+            <div className="w-16 h-16 rounded-2xl bg-[#3E5164]/40 border-2 border-[#BCC7D2]/40 flex items-center justify-center mb-4">
+              <svg className="w-8 h-8 text-[#F2A488]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
             </div>
-            <p className="text-base font-bold text-[#FFEBD3]">Analiz Edilecek Bir Görsel Yükleyin</p>
-            <p className="text-xs text-[#FFB6A6]/80 mt-1 max-w-sm">
+            <p className="text-base font-bold text-[#F5F9F5]">Analiz Edilecek Bir Görsel Yükleyin</p>
+            <p className="text-xs text-[#BCC7D2] mt-1 max-w-sm">
               Sağ paneli kullanarak bir dosya seçin veya aşağıdaki örnek görsellerden birine tıklayın.
             </p>
           </div>

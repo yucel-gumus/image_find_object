@@ -1,28 +1,29 @@
 @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Mono:wght@400;700&display=swap');
 
 :root {
-  /* 60-30-10 Theme System Tokens */
-  /* 60% Dominant (Base & Background): #FFEBD3 */
-  --color-dominant: #FFEBD3;
-  --color-dominant-light: #FFF6EC;
-  --color-dominant-dark: #F2D5B5;
-  --color-dominant-border: #E8C8A3;
+  /* İpek Küllü Arduvaz 60-30-10 Theme System Tokens */
+  /* 60% Dominant (Açık Sis Yeşili): #F5F9F5, #EDF3EE, #DBE6DD */
+  --color-dominant: #EDF3EE;
+  --color-dominant-light: #F5F9F5;
+  --color-dominant-dark: #DBE6DD;
+  --color-dominant-border: #BCC7D2;
 
-  /* 30% Secondary (Surfaces, Cards, Sidebar): #FFB6A6 */
-  --color-secondary: #FFB6A6;
-  --color-secondary-light: #FFCBD0;
-  --color-secondary-dark: #E89E8E;
-  --color-secondary-border: #D98877;
-  --text-on-secondary: #3D231C;
-  --text-on-secondary-muted: #6E4438;
+  /* 30% Secondary (Küllü Arduvaz): #DCE3EA, #BCC7D2, #3E5164, #253341 */
+  --color-secondary: #DCE3EA;
+  --color-secondary-light: #EDF3EE;
+  --color-secondary-dark: #3E5164;
+  --color-secondary-border: #BCC7D2;
+  --text-on-secondary: #253341;
+  --text-on-secondary-muted: #3E5164;
 
-  /* 10% Accent (CTAs, Active States, Highlights, Badges): #9BCEC1 */
-  --color-accent: #9BCEC1;
-  --color-accent-hover: #86BBAE;
-  --color-accent-active: #6FA497;
-  --color-accent-light: #D8EFE8;
-  --color-accent-border: #6DA294;
-  --text-on-accent: #15382F;
+  /* 10% Accent (Kiremit-Mercan): #F2A488, #EC7D55, #AB421C */
+  --color-accent: #EC7D55;
+  --color-accent-hover: #AB421C;
+  --color-accent-active: #AB421C;
+  --color-accent-light: #F2A488;
+  --color-accent-border: #AB421C;
+  --text-on-accent: #253341;
+  --text-on-accent-hover: #F5F9F5;
 
   font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
   font-size: 14px;
@@ -45,34 +46,34 @@ html, body, #root {
 }
 
 ::-webkit-scrollbar-track {
-  background: var(--color-dominant-dark);
+  background: var(--color-dominant);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--color-secondary-dark);
+  background: var(--color-secondary-border);
   border-radius: 9999px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--color-accent);
+  background: var(--color-secondary-dark);
 }
 
 /* Base Form Control Overrides */
 input[type="range"] {
-  accent-color: var(--color-accent-border);
+  accent-color: var(--color-accent);
 }
 
 textarea:focus, input:focus {
   outline: none;
-  border-color: var(--color-accent-border) !important;
-  box-shadow: 0 0 0 3px rgba(155, 206, 193, 0.35) !important;
+  border-color: var(--color-accent) !important;
+  box-shadow: 0 0 0 3px rgba(236, 125, 85, 0.35) !important;
 }
 
 /* Custom glassmorphism cards */
 .theme-card {
   background-color: var(--color-secondary);
   border: 1.5px solid var(--color-secondary-border);
-  box-shadow: 0 10px 25px -5px rgba(61, 35, 28, 0.07), 0 8px 10px -6px rgba(61, 35, 28, 0.05);
+  box-shadow: 0 10px 25px -5px rgba(37, 51, 65, 0.08), 0 8px 10px -6px rgba(37, 51, 65, 0.05);
 }
 
 .theme-card-subtle {
@@ -89,8 +90,10 @@ textarea:focus, input:focus {
 
 .theme-accent-btn:hover:not(:disabled) {
   background-color: var(--color-accent-hover);
+  color: var(--text-on-accent-hover);
+  border-color: var(--text-on-secondary);
   transform: translateY(-1px);
-  box-shadow: 0 6px 16px -2px rgba(155, 206, 193, 0.6);
+  box-shadow: 0 6px 16px -2px rgba(171, 66, 28, 0.35);
 }
 
 .theme-accent-btn:active:not(:disabled) {
@@ -98,9 +101,9 @@ textarea:focus, input:focus {
 }
 
 .theme-accent-badge {
-  background-color: var(--color-accent);
+  background-color: var(--color-accent-light);
   color: var(--text-on-accent);
-  border: 1px solid var(--color-accent-border);
+  border: 1px solid var(--color-accent);
 }
 
 /* Hide box animation */

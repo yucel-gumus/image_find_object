@@ -138,8 +138,8 @@ export function Prompt() {
       {/* Target Prompt Box */}
       <div className="flex flex-col gap-3">
         <div className="flex items-center justify-between">
-          <label className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#3D231C]">
-            <svg className="w-4 h-4 text-[#15382F]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <label className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-wider text-[#253341]">
+            <svg className="w-4 h-4 text-[#AB421C]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
             </svg>
             Görsel üzerinde işaretlenmesi gereken nesneyi yazınız
@@ -148,7 +148,7 @@ export function Prompt() {
 
         {/* Textarea Input */}
         <textarea
-          className="w-full bg-[#FFEBD3] rounded-xl p-3 border-2 border-[#E8C8A3] text-[#3D231C] placeholder-[#6E4438]/60 font-medium text-sm focus:border-[#9BCEC1] focus:bg-[#FFF6EC] transition-all duration-200 resize-none shadow-sm"
+          className="w-full bg-[#F5F9F5] rounded-xl p-3 border-2 border-[#BCC7D2] text-[#253341] placeholder-[#3E5164]/70 font-medium text-sm focus:border-[#EC7D55] focus:bg-[#F5F9F5] transition-all duration-200 resize-none shadow-sm"
           placeholder="Neleri tespit etmek istersiniz? (ör: kedi, sandalye, çanta)"
           rows={1}
           value={targetPrompt}
@@ -164,7 +164,7 @@ export function Prompt() {
       </div>
 
       {/* Action Row */}
-      <div className="pt-2 border-t border-[#D98877]/40 flex justify-end">
+      <div className="pt-2 border-t border-[#BCC7D2] flex justify-end">
         {/* Primary CTA Button */}
         <button
           className={`w-full theme-accent-btn px-8 py-3.5 rounded-xl font-extrabold text-sm flex items-center justify-center gap-2 shadow-md ${
@@ -175,7 +175,7 @@ export function Prompt() {
         >
           {isLoading ? (
             <>
-              <svg className="animate-spin h-5 w-5 text-[#15382F]" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <svg className="animate-spin h-5 w-5 text-current" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                 <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
                 <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
               </svg>
@@ -183,7 +183,7 @@ export function Prompt() {
             </>
           ) : (
             <>
-              <svg className="w-5 h-5 text-[#15382F]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-5 h-5 text-current" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
               </svg>
               <span>GÖRSELİ ANALİZ ET</span>
